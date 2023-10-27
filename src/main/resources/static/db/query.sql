@@ -15,6 +15,20 @@ WHERE category_id = 1;
 -- 카테고리 등록 이전에 삭제했던 카테고리면 삭제 취소, 아니면 새로 등록
 CALL AddOrResetCategory('커피');
 
+-- 동일한 카테고리명으로 수정하는것을 방지하기 위한 프로시저
+CALL UpdateCategoryIfNotExists('커피','카푸치노');
+
+CALL UpdateCategoryIfNotExists('카푸치노', '커피');
+
+CALL UpdateCategoryIfNotExists('커피', '카푸치노');
+
+SELECT * FROM Category;
+
+SET @CNT = 9;
+UPDATE category SET category.category_id = @CNT:=@CNT+1;
+
+
+
 -- 카테고리 별 품목 출력
 SELECT *
 FROM Category
@@ -120,3 +134,5 @@ GROUP BY Selling.product_id ,Product.name;
 -- 판매 금액 조회
 SELECT SUM(total_price)AS total_price FROM Selling
 WHERE Selling.check_selling = TRUE;
+
+
